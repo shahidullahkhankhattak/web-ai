@@ -44,7 +44,7 @@ export default {
         <div v-for="m in messages" :class="m.type === 'human' ? 'chat-sent' : 'chat-recieved'">{{ m.message }}</div>
       </div>
       <div class="actions">
-        <input type="text" placeholder="type here ..." v-model="message" @keyup.enter="sendMessage()" />
+        <textarea type="text" placeholder="type here ..." v-model="message" @keyup.enter="sendMessage()"></textarea>
         <button type="button" @click="sendMessage()">Send</button>
       </div>
     </div>
@@ -102,7 +102,7 @@ export default {
         font-size: 18px;
       }
 
-      input {
+      textarea {
         flex: 0.9;
         padding-left: 10px;
       }
