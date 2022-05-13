@@ -1,6 +1,6 @@
 # web-ai
 
-This template should help get you started developing with Vue 3 in Vite.
+A chatbot powered by artificial intelligence, that will learn from people who chat with it with time.
 
 ## Recommended IDE Setup
 

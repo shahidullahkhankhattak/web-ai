@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const TRAINING_KEY = 'training';
+const BACKEND_BASE = 'https://bot.shahidullahkhan.com/backend';
 
 class TrainingData {
 	constructor() {
@@ -8,7 +8,7 @@ class TrainingData {
 	}
 
 	fetchTrainingData() {
-		axios.get('https://shahidullahkhan.com/web/web-ai-training.php').then(res => {
+		axios.get(`${BACKEND_BASE}/web-ai-training.php`).then(res => {
 			if (res && res.data) {
 				this.trainingData = res.data;
 			}
@@ -16,7 +16,7 @@ class TrainingData {
 	}
 
 	saveTrainingData() {
-		axios.post('https://shahidullahkhan.com/web/web-ai-training.php', {
+		axios.post(`${BACKEND_BASE}/web-ai-training.php`, {
 			trainingData: this.trainingData
 		});
 	}
@@ -38,6 +38,10 @@ export default class Bot extends TrainingData {
 	}
 
 	respond(newMessage, oldMessage) {
+    return this.processResponse(newMessage?.toLowerCase(), oldMessage?.toLowerCase())
+	}
+
+  processResponse(newMessage, oldMessage) {
 		const message = this.trainingData.find(t => t.message === newMessage);
 		if (!message) {
 			this.train(newMessage);
@@ -59,5 +63,5 @@ export default class Bot extends TrainingData {
 		}
 
 		return newMessage;
-	}
+  }
 }

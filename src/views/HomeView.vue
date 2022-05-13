@@ -1,5 +1,6 @@
 <script>
 import Bot from '../utils/bot';
+import { listenDomChanges } from '../utils/domUtils';
 
 const bot = new Bot();
 
@@ -21,10 +22,17 @@ export default {
       })
       this.message = '';
       bot.saveTrainingData();
+    },
+    scrollBottomOnDomUpdated() {
+      listenDomChanges(this.$refs.contentRef, () => {
+        const $elem = this.$refs.contentRef;
+        $elem.scrollTo(0, $elem.scrollHeight);
+      });
     }
   },
   mounted() {
     bot.init();
+    this.scrollBottomOnDomUpdated();
   }
 }
 </script>
@@ -32,7 +40,7 @@ export default {
 <template>
   <div class="container">
     <div class="chat-wrapper">
-      <div class="content">
+      <div class="content" ref="contentRef">
         <div v-for="m in messages" :class="m.type === 'human' ? 'chat-sent' : 'chat-recieved'">{{ m.message }}</div>
       </div>
       <div class="actions">
@@ -58,9 +66,15 @@ export default {
     background: white;
     border-radius: 5px;
 
+    @media screen and (max-width: 768px) {
+      height: 100%;
+      width: 100%;
+    }
+
     .content {
       display: block;
       flex: 0.9;
+      overflow-y: auto;
 
       [class^=chat-] {
         clear: both;
